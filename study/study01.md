@@ -130,16 +130,16 @@ Node.js는 기본적으로 **CommonJS** 모듈 시스템을 사용한다. Common
   }
 
   module.exports = add;  // 'add' 함수를 모듈로 내보냄
-```
+   ```
 
 - `require`: 다른 파일에서 모듈을 불러오기 할 때 사용한다. require 함수로 불러오면 module.exports로 내보낸 기능을 사용할 수 있다.
 
-```javascript
-// app.js
-const add = require('./math');  // 'math.js' 모듈을 불러옴
+   ```javascript
+   // app.js
+   const add = require('./math');  // 'math.js' 모듈을 불러옴
 
-console.log(add(2, 3));  // 출력: 5
-```
+   console.log(add(2, 3));  // 출력: 5
+   ```
 
 #### 특징
 - 모듈 단위로 캡슐화: 각 파일은 독립적인 모듈로 동작하며, module.exports로 내보내기 전까지는 해당 모듈의 변수나 함수가 다른 파일에 노출되지 않는다.
@@ -171,13 +171,28 @@ console.log(add(2, 3));  // 출력: 5
 - 브라우저 호환성: ES Modules는 Node.js뿐만 아니라 브라우저에서도 사용할 수 있어, 클라이언트와 서버에서 동일한 모듈 시스템을 사용할 수 있다.
 
 ### 4.Node.js에서의 모듈 종류
-내장 모듈: Node.js는 파일 시스템 처리, 네트워크 통신 등을 위한 기본 내장 모듈을 제공한다. 예를 들어, fs, http, path 같은 모듈이 있다.
 
 ```javascript
 const fs = require('fs');  // 파일 시스템 모듈 불러오기
+const http = require('http');
 ```
-- 사용자 정의 모듈: 개발자가 만든 모듈을 다른 파일에서 재사용할 수 있다. 위에서 예시로 든 math.js처럼 직접 정의한 모듈을 require나 import로 불러와 사용할 수 있다.
-- 외부 모듈: **npm(Node Package Manager)** 을 통해 설치한 외부 라이브러리들도 모듈로 사용할 수 있다.
+- 내장 모듈: Node.js는 파일 시스템 처리, 네트워크 통신 등을 위한 기본 내장 모듈을 제공한다. 예를 들어, fs, http, path 같은 모듈이 있다.
+
+```javascript
+// math.js
+function sum(a, b) {
+    return a+b;
+}
+module.exports = {
+    sum: sum
+}
+
+// main.js
+const math = require('./math.js')
+
+const result = math.sum(1,2); // 3
+```
+- 사용자 정의 모듈: 개발자가 만든 모듈을 다른 파일에서 재사용할 수 있다. 위에서 예시로 든 `math.js`처럼 직접 정의한 모듈을 `require`나 `import`로 불러와 사용할 수 있다.
 
 ```bash
 npm install express  # express 모듈 설치
@@ -186,3 +201,4 @@ npm install express  # express 모듈 설치
 const express = require('express');  // 외부 모듈 사용
 const app = express();
 ```
+- 외부 모듈: **npm(Node Package Manager)** 을 통해 설치한 외부 라이브러리들도 모듈로 사용할 수 있다.
