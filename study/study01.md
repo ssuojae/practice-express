@@ -76,7 +76,9 @@
 - **논블로킹(Non-blocking)**: 작업이 끝날 때까지 기다리지 않고, 처리 결과가 준비되면 **콜백 함수**를 호출하여 결과를 처리한다.
 
 ### 3. 이벤트 루프(Event Loop)
+
 <img src="img_1.png" width="450">
+
 - Node.js의 비동기 처리의 핵심은 **이벤트 루프**이다. 
 - 이벤트 루프는 **싱글 스레드**로 동작하면서, **작업 큐**에 있는 작업들을 하나씩 처리해 나간다.
 
@@ -149,22 +151,26 @@ Node.js는 기본적으로 **CommonJS** 모듈 시스템을 사용한다. Common
 Node.js는 12.x 버전부터 **ECMAScript 모듈(ESM)**을 정식으로 지원하기 시작했다. ES Modules는 더 표준적인 자바스크립트 모듈 시스템으로, 브라우저 환경에서도 동일하게 사용할 수 있다.
 
 #### import와 export의 사용법
-export: 모듈에서 내보낼 함수나 객체를 export로 선언한다.
 
-```javascript
-// math.mjs
-export function add(a, b) {
-  return a + b;
-}
-```
+   ```javascript
+   // math.mjs
+   export function add(a, b) {
+      return a + b;
+   }
+   ```
+- `export`: 모듈에서 내보낼 함수나 객체를 export로 선언한다.
+
+<br/>
+
+   ```javascript
+   // app.mjs
+   import { add } from './math.mjs';  // 'math.mjs' 모듈을 불러옴
+
+   console.log(add(2, 3));  // 출력: 5
+   ```
+
 - `import`: 다른 파일에서 import로 모듈을 불러올 수 있다.
 
-```javascript
-// app.mjs
-import { add } from './math.mjs';  // 'math.mjs' 모듈을 불러옴
-
-console.log(add(2, 3));  // 출력: 5
-```
 
 #### 특징
 - 비동기적 로드: ES Modules는 모듈을 비동기적으로 불러오기 때문에, 필요할 때 비동기로 로드할 수 있어 성능에 더 유리하다.
@@ -172,33 +178,36 @@ console.log(add(2, 3));  // 출력: 5
 
 ### 4.Node.js에서의 모듈 종류
 
-```javascript
-const fs = require('fs');  // 파일 시스템 모듈 불러오기
-const http = require('http');
-```
-- 내장 모듈: Node.js는 파일 시스템 처리, 네트워크 통신 등을 위한 기본 내장 모듈을 제공한다. 예를 들어, fs, http, path 같은 모듈이 있다.
+   ```javascript
+    const fs = require('fs');  // 파일 시스템 모듈 불러오기
+    const http = require('http');
+   ```
+- **내장 모듈**: Node.js는 파일 시스템 처리, 네트워크 통신 등을 위한 기본 내장 모듈을 제공한다. 예를 들어, fs, http, path 같은 모듈이 있다.
 
-```javascript
-// math.js
-function sum(a, b) {
-    return a+b;
-}
-module.exports = {
-    sum: sum
-}
+<br/>
 
-// main.js
-const math = require('./math.js')
+   ```javascript
+    // math.js
+    function sum(a, b) {
+        return a+b;
+    }
+    module.exports = {
+        sum: sum
+    }
 
-const result = math.sum(1,2); // 3
-```
-- 사용자 정의 모듈: 개발자가 만든 모듈을 다른 파일에서 재사용할 수 있다. 위에서 예시로 든 `math.js`처럼 직접 정의한 모듈을 `require`나 `import`로 불러와 사용할 수 있다.
+    // main.js
+    const math = require('./math.js')
+    const result = math.sum(1,2); // 3
+   ```
+- **사용자 정의 모듈**: 개발자가 만든 모듈을 다른 파일에서 재사용할 수 있다. 위에서 예시로 든 `math.js`처럼 직접 정의한 모듈을 `require`나 `import`로 불러와 사용할 수 있다.
 
-```bash
-npm install express  # express 모듈 설치
-```
-```javascript
-const express = require('express');  // 외부 모듈 사용
-const app = express();
-```
-- 외부 모듈: **npm(Node Package Manager)** 을 통해 설치한 외부 라이브러리들도 모듈로 사용할 수 있다.
+<br/>
+
+   ```bash
+  npm install express  # express 모듈 설치
+   ```
+   ```javascript
+    const express = require('express');  // 외부 모듈 사용
+    const app = express();
+   ```
+- **외부 모듈**: **npm(Node Package Manager)** 을 통해 설치한 외부 라이브러리들도 모듈로 사용할 수 있다.
