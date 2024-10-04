@@ -29,7 +29,7 @@ result.should.be.equal(expectedValue);  // When: someFunction을 실행한 결�
 result.should.be.a('number');  // Then: 결과가 숫자 형식이어야 한다
 ```
 
-- 예시 코드: Mocha, Should를 사용한 Given-When-Then
+#### 예시 코드: Mocha, Should를 사용한 Given-When-Then
 ```javascript
 const should = require('should');
 
