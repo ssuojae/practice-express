@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node bin/main.js"
+    "start": "node bin/main.js",
+    "test": "mocha"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -12,5 +13,10 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "mocha": "^10.7.3",
+    "should": "^13.2.3",
+    "supertest": "^7.0.0"
   }
 }
