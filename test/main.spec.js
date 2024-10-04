@@ -72,4 +72,32 @@ describe('GET /users/1', () => {
                 .end(done);
         })
     })
+
+    describe('POST /users', () => {
+        describe('성공시', () => {
+            let name = 'bobhorn',
+                body;
+            before(done => {
+                request(app)
+                    .post('/users')
+                    .send({ name: name }) // name을 POST 요청으로 보냄
+                    .expect(201) // 201 상태 코드를 기대
+                    .end((err, res) => {
+                        if (err) return done(err);
+                        body = res.body; // 응답 본문(body) 저장
+                        done();
+                    });
+            });
+
+            it('생성된 유저 객체를 반환한다', done => {
+                body.should.have.property('id'); // id 속성이 존재하는지 확인
+                done();
+            });
+
+            it('입력한 name을 반환한다', done => {
+                body.should.have.property('name', name); // name 속성이 정확한지 확인
+                done();
+            });
+        });
+    });
 });
