@@ -75,7 +75,7 @@ describe('GET /users/1', () => {
 
     describe('POST /users', () => {
         describe('성공시', () => {
-            let name = 'bobhorn',
+            let name = 'alice',
                 body;
             before(done => {
                 request(app)
