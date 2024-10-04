@@ -162,6 +162,7 @@ describe('GET /users/1', () => {
             it('없는 유저일 경우 404을 응답한다', done => {
                 request(app)
                     .put('/users/999')
+                    .send({name: 'foo'})
                     .expect(404)
                     .end(done);
             })
