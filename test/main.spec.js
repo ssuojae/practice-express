@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../bin/main');
+const app = require('../api/main');
 
 describe('GET /users', () => {
     describe('성공시', () => {
