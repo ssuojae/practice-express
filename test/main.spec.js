@@ -146,7 +146,7 @@ describe('GET /users/1', () => {
         describe('실패시', () => {
             it('정수가 아닌 id일 경우 400을 응답한다', done => {
                 request(app)
-                    .send('/users/one')
+                    .put('/users/one')
                     .expect(400)
                     .end(done);
             })

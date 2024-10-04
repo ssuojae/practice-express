@@ -64,6 +64,7 @@ app.post('/users', (req, res) => {
 
 app.put('/users/:id', (req, res) => {
     const id = parseInt(req.params.id, 10);
+    if (Number.isNaN(id)) return res.status(400).end();
     const name = req.body.name;
     const user = users.filter((user) => user.id === id)[0];
     user.name = name;
