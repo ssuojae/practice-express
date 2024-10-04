@@ -55,6 +55,20 @@ describe('GET /users/1는', () => {
                 })
         })
     })
+    describe('실패시', () => {
+        it('id 가 숫자가 아닐경우 400으로 응답한다', (done) => {
+            request(app)
+                .get('/users/one')
+                .expect(400)
+                .end(done);
+        });
+        it('id가 유저를 찾을 수 없을 경우 404로 응답한다', (done) => {
+            request(app)
+                .get('/user/999')
+                .expect(400)
+                .end(done);
+        })
+    })
 
 
 })
