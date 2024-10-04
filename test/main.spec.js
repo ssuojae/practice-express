@@ -117,4 +117,19 @@ describe('GET /users/1', () => {
         })
     });
 
+    describe('PUT /users/:id', () => {
+        describe('성공시', () => {
+            it('변경된 name을 응답한다', (done) => {
+                const name = 'changedName'
+                request(app)
+                    .put('/users/1')
+                    .send({ name: name})
+                    end((err, res) => {
+                        res.body.should.have.property(name);
+                    })
+
+            })
+        })
+    })
+
 });
