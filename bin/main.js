@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var morgan = require('morgan');
+var bodyParser = require('body-parser');
 
 var users = [
     { id: 1, name: 'alice' },
@@ -9,6 +10,8 @@ var users = [
 ];
 
 app.use(morgan('dev'));
+app.use(bodyParser.json()); // JSON 데이터 파싱
+app.use(bodyParser.urlencoded({ extended: true })); // URL-encoded 데이터 파싱
 
 app.get('/users', function (req, res) {
     const limit = parseInt(req.query.limit, 10);
@@ -45,5 +48,13 @@ app.delete('/users/:id', (req, res) => {
     res.status(204).end();
 
 })
+
+app.post('/users', (req, res) => {
+    const name = req.body.name;
+    const id = Date.now();
+    const user = { id, name };
+    users.push(user);
+    res.status(201).json(user);
+});
 
 module.exports = app;
