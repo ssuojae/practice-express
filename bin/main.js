@@ -1,21 +1,20 @@
-const http = require('http');
+var express = require('express');
+var app = express();
+var morgan = require('morgan');
 
-const hostname = '127.0.0.1';
-const port = 3000;
+var users = [
+    {id: 1, name: 'alice'},
+    {id: 2, name: 'bob'},
+    {id: 3, name: 'bobhorn'},
+];
 
-const server = http.createServer((req, res) => {
+app.use(morgan('dev'));
 
-    if (req.url === '/') {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/plain');
-        res.end('test');
-    } else if (req.url === '/users') {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/plain');
-        res.end('user list');
-    }
+app.get('/users', function (req, res) {
+    res.json(users);
+});
+
+app.listen(3000, function() {
+    console.log('Example app listening on port 3000');
 })
 
-server.listen(port, hostname, () => {
-    console.log(`server running at http://${hostname}:${port}/`);
-});
