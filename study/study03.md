@@ -1,64 +1,86 @@
-## TDD로 API서버 개발하기
+## TDD로 API 서버 개발하기
 
-
-### Mocha, Should, Supertest를 이용한 BDD 테스트 코드 작성하기
+### Mocha, Should를 이용한 BDD 테스트 코드 작성하기
 
 #### 1. Given
-- **Given** 단계는 테스트의 **초기 상태**를 설정하는 단계이다. 어떤 조건이나 상황이 주어졌을 때를 정의한다.  
+- **Given** 단계는 테스트의 **초기 상태**를 설정하는 단계이다. 어떤 조건이나 상황이 주어졌을 때를 정의한다.
 - 이 단계에서는 **Mocha의 `describe()`와 `before()`** 등을 사용해 **테스트 환경을 설정**하고 준비 작업을 한다.
 
 ```javascript
 describe('User API', function() {
-    // Given: 사용자 목록을 조회하는 API가 주어졌을 때
+   // Given: 사용자 목록을 조회하는 API가 주어졌을 때
 });
 ```
 
 #### 2. When
-- When 단계는 테스트할 행동이 일어나는 단계이다. 어떤 액션이 수행되는지를 나타낸다.
-- Supertest는 w주로 통합테스트에 사용되며 API 요청을 보내거나, Should를 사용해 조건을 실행한다.
 
+- When 단계는 테스트할 행동이 일어나는 단계이다. 어떤 액션이 수행되는지를 나타낸다.
+- 이 단계에서는 비즈니스 로직의 실행과 그 결과를 검증한다. 
+- Mocha와 Should를 사용하여 해당 로직의 올바른 동작을 확인할 수 있다.
 ```javascript
-request(app)
-    .get('/users')  // When: GET 요청을 /users 경로에 보냈을 때
+const result = someFunction();
+result.should.be.equal(expectedValue);  // When: someFunction을 실행한 결과가 예상 값과 같은지 확인
 ```
 
 #### 3. Then
 - Then 단계는 그 행동에 따른 결과를 확인하는 단계이다. 예상한 결과가 맞는지 검증한다.
-- 이 단계에서는 Should를 사용해 **Assertion** 을 작성하여, 실제 결과가 예상과 일치하는지 검증한다.
-
-```ja vascript
-    .expect(200)  // Then: 응답 상태 코드가 200이어야 한다
-    .expect('Content-Type', /json/)  // Then: 응답이 JSON 형식이어야 한다
-    res.body.should.be.an.Array();  // Then: 응답 본문이 배열이어야 한다
+- 이 단계에서는 Should를 사용해 Assertion 을 작성하여, 실제 결과가 예상과 일치하는지 검증한다.
+```javascript
+result.should.be.a('number');  // Then: 결과가 숫자 형식이어야 한다
 ```
 
-
-#### 예시 코드: Mocha, Should, Supertest를 사용한 Given-When-Then
-
+- 예시 코드: Mocha, Should를 사용한 Given-When-Then
 ```javascript
-const request = require('supertest');
-const app = require('./app'); // Express 앱
 const should = require('should');
 
 describe('User API', function() {
-// Given: 사용자 목록을 조회하는 API가 주어졌을 때
-it('should return a list of users', function(done) {
-// When: GET 요청을 /users 경로에 보냈을 때
-    request(app)
-        .get('/users')
-        .expect(200) // Then: 응답 상태 코드가 200이어야 한다
-        .expect('Content-Type', /json/) // Then: 응답이 JSON 형식이어야 한다
-        .end(function(err, res) {
-            if (err) return done(err);
-                // Then: 응답 본문이 배열이어야 한다
-                res.body.should.be.an.Array();done();
-        });
-    });
+   // Given: 어떤 상황에서
+   it('should return correct user data', function() {
+      // When: 특정 액션이 실행되고
+      const result = getUserData(1);
+
+      // Then: 결과가 예상과 일치해야 한다
+      result.should.have.property('id', 1);
+   });
 });
 ```
 
+### 통합 테스트: Supertest를 이용한 API 테스트
+- Supertest는 주로 통합 테스트를 수행할 때 사용된다. 
+- 여기서는 서버에 실제로 요청을 보내고, 그 결과가 예상한 대로 동작하는지 검증하는 방식으로 테스트를 수행한다.
 
+#### Supertest를 이용한 통합 테스트 예시
+```javascript
+const request = require('supertest');
+const app = require('./app');  // Express 앱 불러오기
 
+describe('User API 통합 테스트', function() {
+   // When: GET /users 요청을 보낼 때
+   it('should return a list of users', function(done) {
+      request(app)
+              .get('/users')  // When: GET 요청을 /users 경로에 보냈을 때
+              .expect(200)  // Then: 응답 상태 코드가 200이어야 한다
+              .expect('Content-Type', /json/)  // Then: 응답이 JSON 형식이어야 한다
+              .end(function(err, res) {
+                 if (err) return done(err);
+                 res.body.should.be.an.Array();  // Then: 응답 본문이 배열이어야 한다
+                 done();
+              });
+   });
+
+   it('should return a single user by ID', function(done) {
+      request(app)
+              .get('/users/1')  // When: GET 요청을 /users/1 경로에 보냈을 때
+              .expect(200)  // Then: 응답 상태 코드가 200이어야 한다
+              .expect('Content-Type', /json/)  // Then: 응답이 JSON 형식이어야 한다
+              .end(function(err, res) {
+                 if (err) return done(err);
+                 res.body.should.have.property('id', 1);  // Then: 응답의 id가 1이어야 한다
+                 done();
+              });
+   });
+});
+```
 
 <br/>
 <br/>
