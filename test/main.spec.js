@@ -68,7 +68,7 @@ describe('GET /users/1', () => {
         it('id가 숫자가 아닐경우 400으로 응답한다', (done) => {
             request(app)
                 .delete('/users/one')
-                .expect(409)
+                .expect(404)
                 .end(done);
         })
     })

@@ -40,6 +40,7 @@ app.get('/users/:id', function (req, res) {
 
 app.delete('/users/:id', (req, res) => {
     const id = parseInt(req.params.id, 10);
+    if (Number.isNaN(id)) return res.status(404).end();
     users = users.filter((user) => user.id !== id); // 삭제하지않을 id 배열들로 바꿔치기
     res.status(204).end();
 
