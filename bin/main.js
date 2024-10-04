@@ -27,4 +27,16 @@ app.get('/users', function (req, res) {
     res.json(users.slice(0, limit));
 });
 
+app.get('/users/:id', function (req, res) {
+    const id = parseInt(req.params.id, 10);
+    const user = users.find((user) => user.id === id); // find()로 해당 ID의 사용자 찾기
+
+    if (!user) {
+        return res.status(404).end(); // 유저가 없으면 404 반환
+    }
+
+    res.json(user); // 유저 정보 반환
+});
+
+
 module.exports = app;
