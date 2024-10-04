@@ -38,5 +38,11 @@ app.get('/users/:id', function (req, res) {
     res.json(user); // 유저 정보 반환
 });
 
+app.delete('/users/:id', (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    users = users.filter((user) => user.id !== id); // 삭제하지않을 id 배열들로 바꿔치기
+    res.status(204).end();
+
+})
 
 module.exports = app;
