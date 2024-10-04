@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../bin/main'); // Express 애플리케이션 불러오기
+const app = require('../bin/main');
 
 describe('GET /users', () => {
     describe('성공시', () => {
@@ -124,10 +124,9 @@ describe('GET /users/1', () => {
                 request(app)
                     .put('/users/1')
                     .send({ name: name})
-                    end((err, res) => {
+                    .end((err, res) => {
                         res.body.should.have.property(name);
                     })
-
             })
         })
     })

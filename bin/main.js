@@ -4,14 +4,14 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 
 var users = [
-    { id: 1, name: 'alice' },
-    { id: 2, name: 'bob' },
-    { id: 3, name: 'bobhorn' },
+    {id: 1, name: 'alice'},
+    {id: 2, name: 'bob'},
+    {id: 3, name: 'bobhorn'},
 ];
 
 app.use(morgan('dev'));
 app.use(bodyParser.json()); // JSON 데이터 파싱
-app.use(bodyParser.urlencoded({ extended: true })); // URL-encoded 데이터 파싱
+app.use(bodyParser.urlencoded({extended: true})); // URL-encoded 데이터 파싱
 
 app.get('/users', function (req, res) {
     const limit = parseInt(req.query.limit, 10);
@@ -52,12 +52,12 @@ app.delete('/users/:id', (req, res) => {
 app.post('/users', (req, res) => {
     const name = req.body.name;
 
-    if(!name) return res.status(400).end();
+    if (!name) return res.status(400).end();
     const isConflict = users.filter(user => user.name === name).length
     if (isConflict) return res.status(409).end();
 
     const id = Date.now();
-    const user = { id, name };
+    const user = {id, name};
     users.push(user);
     res.status(201).json(user);
 });
