@@ -120,15 +120,28 @@ describe('GET /users/1', () => {
     describe('PUT /users/:id', () => {
         describe('성공시', () => {
             it('변경된 name을 응답한다', (done) => {
-                const name = 'changedName'
+                // 새로운 사용자를 생성한 후, 바로 PUT 요청으로 이름을 변경
                 request(app)
-                    .put('/users/1')
-                    .send({ name: name})
+                    .post('/users')
+                    .send({ name: 'new user' }) // 새 유저 생성
+                    .expect(201)
                     .end((err, res) => {
-                        res.body.should.have.property(name);
-                    })
-            })
-        })
-    })
+                        if (err) return done(err);
+                        const userId = res.body.id; // 생성된 유저의 ID를 저장
+                        const updatedName = 'changedName';
 
+                        // 생성한 유저의 이름을 변경
+                        request(app)
+                            .put(`/users/${userId}`)
+                            .send({ name: updatedName })
+                            .expect(200)
+                            .end((err, res) => {
+                                if (err) return done(err);
+                                res.body.should.have.property('name', updatedName); // 변경된 이름 확인
+                                done();
+                            });
+                    });
+            });
+        });
+    });
 });
