@@ -15,7 +15,7 @@ describe('User API', function() {
 
 #### 2. When
 - When 단계는 테스트할 행동이 일어나는 단계이다. 어떤 액션이 수행되는지를 나타낸다.
-- 이 단계에서는 Supertest를 사용해 API 요청을 보내거나, Should를 사용해 조건을 실행한다.
+- Supertest는 w주로 통합테스트에 사용되며 API 요청을 보내거나, Should를 사용해 조건을 실행한다.
 
 ```javascript
 request(app)
